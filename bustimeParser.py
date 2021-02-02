@@ -25,10 +25,10 @@ with open('select.txt', 'w') as output_file:
 def soup2head(s):
     spans = s.find_all('span', {'id': 'head'})
     res = []
-    rex = re.compile(r'', flags=0)
+    rex = re.compile(r'\/%s\/transport\/%s\/(\S*)\/' % (city, dt), flags=0)
     for span in spans:
         a = span.find('a')
-        res.append({'id': a.get('href'), 'reg_num': a.text})
+        res.append({'id': rex.search(a.get('href'))[1], 'reg_num': a.text})
     return res
 
 # .pagination
