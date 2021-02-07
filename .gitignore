@@ -1,3 +1,7 @@
 *.csv
 *.gz
 *.ods
+*.txt
+*.sqlite3
+*.sqlite
+*.db
