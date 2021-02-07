@@ -2,7 +2,9 @@ import requests
 import lxml
 from bs4 import BeautifulSoup
 import re
+import time
 
+start_time = time.time()
 base_url = 'https://www.bustime.ru'
 city = 'nizhniy-novgorod'
 dt = '2021-02-05'
@@ -44,9 +46,15 @@ if pages is not None:
         r = requests.get(url)
         soup = BeautifulSoup(r.text, "lxml")
         heads = heads + soup2head(soup)
+        print(url)
     # if 1 == len(pages):
     #     print(pages[0].get('href'))
     # else:
-    for head in heads:
-        print(head)
+    with open('heads.txt', 'w') as fout:
+        fout.write('id\treg_num\n')
+        for head in heads:
+            #print(head)
+            fout.write(head['id']+'\t'+head['reg_num']+'\n')
     print(len(heads))
+
+print("--- %s seconds ---" % (time.time() - start_time))
