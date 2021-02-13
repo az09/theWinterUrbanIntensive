@@ -7,7 +7,7 @@ import time
 start_time = time.time()
 base_url = 'https://www.bustime.ru'
 city = 'nizhniy-novgorod'
-dt = '2021-02-05'
+dt = '2021-02-11'
 bus_id = 0 #8013
 rex_head = re.compile(r'\/%s\/transport\/%s\/(\S*)\/' % (city, dt), flags=0)
 rex_page = re.compile(r'\/%s\/transport\/%s\/page-(\d*)' % (city, dt), flags=0)
@@ -30,11 +30,10 @@ def get_html(url):
                 'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.84 Safari/537.36'}
             page = requests.get(url, headers=headers)
             return page.text
-            break
         except:
             print("Connection refused by the server..")
             print("Let me sleep for 10 seconds")
-            sleep(10)
+            time.sleep(10)
 
 def soup2head(s, p):
     spans = s.find_all('span', {'id': 'head'})
