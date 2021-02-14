@@ -35,6 +35,16 @@ def get_html(url):
             print("Let me sleep for 10 seconds")
             time.sleep(10)
 
+def post_ajax():
+    data = {'city_slug': 'nizhniy-novgorod', 'uid': '', 'bus_id': 8010, 'day': '2021-02-11'}
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.84 Safari/537.36',
+        'Accept': 'application/json, text/javascript, */*; q=0.01',
+        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+        'X-Requested-With': 'XMLHttpRequest'
+    }
+    return requests.Session().post(base_url+'/ajax/transport/', data = data, headers=headers)
+
 def soup2head(s, p):
     spans = s.find_all('span', {'id': 'head'})
     res = []
@@ -43,9 +53,12 @@ def soup2head(s, p):
         res.append({'id': rex_head.search(a.get('href'))[1], 'reg_num': a.text.strip(), 'page': p})
     return res
 
+print(post_ajax().text)
+quit()
 # .pagination
 heads = []
 url = '%s/%s/transport/%s/?bus_id=%d' % (base_url, city, dt, bus_id)
+print(url)
 soup = BeautifulSoup(get_html(url), "lxml")
 pages = soup.find('div', {'class': 'ui pagination right menu'}).find_all('a')
 if pages is not None:
